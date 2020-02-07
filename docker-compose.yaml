@@ -265,4 +265,60 @@ services:
       - ./crypto-config:/opt/gopath/src/crypto
     networks:
       - pharma 
+      
+      
+      
+      
+      
+      docker ps -a
+
+
+docker-compose -f ./docker-compose.yml up -d
+
+
+
+docker ps -a
+
+
+
+
+
+docker exec -it cli /bin/bash
+
+
+peer channel create -o orderer.pharma-network.com:7050 -c pharmachannel -f ./channel-artifacts/channel.tx
+
+
+peer channel join -b pharmachannel.block
+
+
+
+CORE_PEER_ADDRESS=peer0.manufacturer.pharma-network.com:8051
+
+
+
+peer channel join -b pharmachannel.block
+
+
+####
+
+CORE_PEER_LOCALMSPID="mhrdMSP"
+
+
+CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/pharma-network.com/users/Admin@mhrd.certification-network.com/msp
+
+
+
+
+CORE_PEER_ADDRESS=peer0.mhrd.certification-network.com:9051
+
+
+
+peer channel join -b certificationchannel.block
+
+
+CORE_PEER_ADDRESS=peer1.mhrd.certification-network.com:10051
+
+
+peer channel join -b certificationchannel.block
                                                  
