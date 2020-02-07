@@ -16,12 +16,26 @@ async instantiate(ctx){
 //Entity Registration
 async registerCompany (companyCRN, companyName, Location, organisationRole){
 	const companyKey=ctx.stub.createCompositeKey('org.pharma-network.pharmanet.company',[companyCRN,companyName]);
-	//add hierarchyKey
+	let hierarchyKeyAssign;
+	if(organisationRole=='Manufacturer')
+	{
+		hierarchyKeyAssign=1;
+	}
+	else if(organisationRole=='Distributor')
+	{
+		hierarchyKeyAssign=2;
+	}
+	else if( organisationRole=='Retailer')
+	{
+		hierarchyKeyAssign=3;
+	}
+	
 	let newCompanyObject={
 		companyId: CompanyKey,
 		companyname: companyName,
 		companylocation: Location,
 		organisationRole: organisationRole,
+		hierarchyKey=hierarchyKeyAssign,
 	
 	};
 	// writing the new objects to the ledger
@@ -38,10 +52,10 @@ async addDrug (drugName, serialNo, mfgDate, expDate, companyCRN){
 	let newDrugObject={
 		productID: DrugKey,
 		drugName: drugName,
-		drugManufacturer: ,
+		drugManufacturer: // key of the caller,
 		drugManufacturingDate: mfgDate,
 		drugExpiryDate: expDate,
-		drugOwner:,
+		drugOwner:,//key of the owner
 		drugShipment:,
 		
 	
@@ -54,15 +68,39 @@ async addDrug (drugName, serialNo, mfgDate, expDate, companyCRN){
 
 //Transfer Drug
 async createPO (buyerCRN, sellerCRN, drugName, quantity){
+	const poKey=ctx.stub.createCompositeKey('org.pharma-network.pharmanet.po',[buyerCRN,drugName]);
+	let newPoObject={
+		drugName=drugName,
+		quantity:quantity,
+		buyer=//buyerkey,
+		seller=//sellerkey,
+}
+	let poBuffer =Buffer.from(JSON.stringify(newPoObject));
+	await ctx.stub.putState(poKey,poBuffer);
+	return newPoObject;
 }
 
 async createShipment (buyerCRN, drugName, listOfAssets, transporterCRN ){
+	const poKey=ctx.stub.createCompositeKey('org.pharma-network.pharmanet.po',[buyerCRN,drugName]);
+	//validate lengths
+	//validate the ids                 
+	const shipmentKey=ctx.stub.createCompositeKey('org.pharma-network.pharmanet.shipment',[buyerCRN,drugName]);
+	let statusAssign='in-transit';
+	let newShipmentObject={
+		creator: //creatorkey,
+		assets: listOfAssets,
+		transporter: //transporterKey,
+		shipmentStatus: statusAssign,
+	}
+	
 }
 
 async updateShipment( buyerCRN, drugName, transporterCRN){
 }
 
 async retailDrug (drugName, serialNo, retailerCRN, customerAadhar){
+	const drugKey=ctx.stub.createCompositeKey('org.pharma-network.pharmanet.drug',[drugName,serialNo]);
+	//change the ownership to aadhar of the buyer
 }
 
 //View Lifecycle
