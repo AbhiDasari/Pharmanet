@@ -264,5 +264,5 @@ services:
      # - ./../chaincode-advanced:/opt/gopath/src/chaincode-advanced
       - ./crypto-config:/opt/gopath/src/crypto
     networks:
-      - pharma
+      - pharma 
                                                  
