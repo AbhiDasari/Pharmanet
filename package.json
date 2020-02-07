@@ -1,7 +1,7 @@
 {
-  "name": "propnet",
+  "name": "pharmanet",
   "version": "0.0.1",
-  "description": "Property Registration Network",
+  "description": "Pharma Network",
   "main": "index.js",
   "engines": {
     "node": ">=8",
