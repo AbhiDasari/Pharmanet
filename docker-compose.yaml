@@ -1,7 +1,7 @@
 version: '2'
 
 volumes:
-  orderer.certification-network.com:
+  orderer.pharma-network.com:
   peer0.manufacturer.pharma-network.com:
   peer1.manufacturer.pharma-network.com:
   peer0.distributor.pharma-network.com:
@@ -45,7 +45,7 @@ services:
       # - FABRIC_CA_SERVER_TLS_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.mhrd.certification-network.com-cert.pem
       # - FABRIC_CA_SERVER_TLS_KEYFILE=/etc/hyperledger/fabric-ca-server-config/69f46c1ef51a71ee0aaadc9cef23aef7b44df2b1e84dad62484980170c01aa22_sk
     ports:
-      - "8054:7054"
+      - "9054:7054"
     command: sh -c 'fabric-ca-server start -b admin:adminpw -d' # --ca.certfile /etc/hyperledger/fabric-ca-server-config/ca.mhrd.certification-network.com-cert.pem --ca.keyfile /etc/hyperledger/fabric-ca-server-config/69f46c1ef51a71ee0aaadc9cef23aef7b44df2b1e84dad62484980170c01aa22_sk
     volumes:
       - ./crypto-config/peerOrganizations/distributor.pharma-network.com/ca/:/etc/hyperledger/fabric-ca-server-config
@@ -62,7 +62,7 @@ services:
       # - FABRIC_CA_SERVER_TLS_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.upgrad.certification-network.com-cert.pem
       # - FABRIC_CA_SERVER_TLS_KEYFILE=/etc/hyperledger/fabric-ca-server-config/9ed31fcf7a2fd649ac2e52254a041e4244dca899f86e6532789601c6fe18a019_sk
     ports:
-      - "9054:7054"
+      - "11054:7054"
     command: sh -c 'fabric-ca-server start -b admin:adminpw -d' # --ca.certfile /etc/hyperledger/fabric-ca-server-config/ca.upgrad.certification-network.com-cert.pem --ca.keyfile /etc/hyperledger/fabric-ca-server-config/9ed31fcf7a2fd649ac2e52254a041e4244dca899f86e6532789601c6fe18a019_sk
     volumes:
       - ./crypto-config/peerOrganizations/retailer.pharma-network.com/ca/:/etc/hyperledger/fabric-ca-server-config
@@ -80,15 +80,15 @@ services:
       # - FABRIC_CA_SERVER_TLS_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.upgrad.certification-network.com-cert.pem
       # - FABRIC_CA_SERVER_TLS_KEYFILE=/etc/hyperledger/fabric-ca-server-config/9ed31fcf7a2fd649ac2e52254a041e4244dca899f86e6532789601c6fe18a019_sk
     ports:
-      - "9054:10054"
+      - "13054:7054"
     command: sh -c 'fabric-ca-server start -b admin:adminpw -d' # --ca.certfile /etc/hyperledger/fabric-ca-server-config/ca.upgrad.certification-network.com-cert.pem --ca.keyfile /etc/hyperledger/fabric-ca-server-config/9ed31fcf7a2fd649ac2e52254a041e4244dca899f86e6532789601c6fe18a019_sk
     volumes:
       - ./crypto-config/peerOrganizations/retailer.pharma-network.com/ca/:/etc/hyperledger/fabric-ca-server-config
     container_name: ca.consumer.pharma-network.com
     networks:
       - pharma
-   ############
-   ca.transporter.pharma-network.com:
+  ############
+  ca.transporter.pharma-network.com:
     image: hyperledger/fabric-ca:latest
     environment:
       - FABRIC_CA_HOME=/etc/hyperledger/fabric-ca-server
@@ -97,7 +97,7 @@ services:
       # - FABRIC_CA_SERVER_TLS_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.upgrad.certification-network.com-cert.pem
       # - FABRIC_CA_SERVER_TLS_KEYFILE=/etc/hyperledger/fabric-ca-server-config/9ed31fcf7a2fd649ac2e52254a041e4244dca899f86e6532789601c6fe18a019_sk
     ports:
-      - "9054:11054"
+      - "15054:7054"
     command: sh -c 'fabric-ca-server start -b admin:adminpw -d' # --ca.certfile /etc/hyperledger/fabric-ca-server-config/ca.upgrad.certification-network.com-cert.pem --ca.keyfile /etc/hyperledger/fabric-ca-server-config/9ed31fcf7a2fd649ac2e52254a041e4244dca899f86e6532789601c6fe18a019_sk
     volumes:
       - ./crypto-config/peerOrganizations/transporter.pharma-network.com/ca/:/etc/hyperledger/fabric-ca-server-config
@@ -205,7 +205,7 @@ services:
       - FABRIC_LOGGING_SPEC=INFO
       - CORE_PEER_ID=cli
       - CORE_PEER_ADDRESS=peer0.manufacturer.pharma-network.com:7051
-      - CORE_PEER_LOCALMSPID=iitMSP
+      - CORE_PEER_LOCALMSPID=manufacturerMSP
       - CORE_PEER_TLS_ENABLED=false
       - CORE_PEER_TLS_CERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/manufacturer.pharma-network.com/peers/peer0.manufacturer.pharma-network.com/tls/server.crt
       - CORE_PEER_TLS_KEY_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/manufacturer.pharma-network.com/peers/peer0.manufacturer.pharma-network.com/tls/server.key
@@ -250,7 +250,7 @@ services:
       - FABRIC_LOGGING_SPEC=INFO 
       - CORE_PEER_ID=chaincode
       - CORE_PEER_ADDRESS=peer0.manufacturer.pharma-network.com:7051
-      - CORE_PEER_LOCALMSPID=iitMSP
+      - CORE_PEER_LOCALMSPID=manufacturerMSP
       - CORE_PEER_TLS_ENABLED=false
       - CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/crypto/peerOrganizations/manufacturer.pharma-network.com/users/Admin@manufacturer.pharma-network.com/msp
       - CORE_TLS_CLIENT_KEY_PATH=/opt/gopath/src/crypto/peerOrganizations/manufacturer.pharma-network.com/users/Admin@manufacturer.pharma-network.com/tls/client.key
@@ -264,61 +264,25 @@ services:
      # - ./../chaincode-advanced:/opt/gopath/src/chaincode-advanced
       - ./crypto-config:/opt/gopath/src/crypto
     networks:
-      - pharma 
-      
-      
-      
-      
-      
-      docker ps -a
+      - pharma
+########################################################
+version: '2'
 
-
-docker-compose -f ./docker-compose.yml up -d
-
-
-
-docker ps -a
-
-
-
-
-
-docker exec -it cli /bin/bash
-
-
-peer channel create -o orderer.pharma-network.com:7050 -c pharmachannel -f ./channel-artifacts/channel.tx
-
-
-peer channel join -b pharmachannel.block
-
-
-
-CORE_PEER_ADDRESS=peer0.manufacturer.pharma-network.com:8051
-
-
-
-peer channel join -b pharmachannel.block
-
-
-####
-
-CORE_PEER_LOCALMSPID="mhrdMSP"
-
-
-CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/pharma-network.com/users/Admin@mhrd.certification-network.com/msp
-
-
-
-
-CORE_PEER_ADDRESS=peer0.mhrd.certification-network.com:9051
-
-
-
-peer channel join -b certificationchannel.block
-
-
-CORE_PEER_ADDRESS=peer1.mhrd.certification-network.com:10051
-
-
-peer channel join -b certificationchannel.block
-                                                 
+services:
+  peer-base:
+    image: hyperledger/fabric-peer:latest
+    environment:
+      - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+      - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=network_pharma
+      - FABRIC_LOGGING_SPEC=INFO
+      - CORE_PEER_TLS_ENABLED=false
+      - CORE_PEER_GOSSIP_USELEADERELECTION=true
+      - CORE_PEER_GOSSIP_ORGLEADER=false
+      - CORE_PEER_PROFILE_ENABLED=true
+      - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/fabric/tls/server.crt
+      - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/fabric/tls/server.key
+      - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/fabric/tls/ca.crt
+    volumes:
+      - ../crypto-config:/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
+    command: peer node start # --peer-chaincodedev
