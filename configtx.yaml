@@ -67,7 +67,7 @@ Organizations:
         Rule: "OR('retailerMSP.admin', 'retailerMSP.peer', 'retailerMSP.client')"
     AnchorPeers:
       - Host: peer0.retailer.pharma-network.com
-        Port: 8051
+        Port: 11051
         
         
   - &consumer
@@ -86,7 +86,7 @@ Organizations:
         Rule: "OR('consumerMSP.admin', 'consumerMSP.peer', 'consumerMSP.client')"
     AnchorPeers:
       - Host: peer0.consumer.pharma-network.com
-        Port: 11051
+        Port: 13051
  
   - &transporter
     Name: transporterMSP
@@ -104,7 +104,7 @@ Organizations:
         Rule: "OR('transporterMSP.admin', 'transporterMSP.peer', 'transporterMSP.client')"
     AnchorPeers:
       - Host: peer0.transporter.pharma-network.com
-        Port: 10051       
+        Port: 15051       
   
 
 
@@ -207,7 +207,7 @@ Profiles:
           - *consumer
           - *transporter
 
-  PharmaChannel:
+PharmaChannel:
     Consortium: PharmaConsortium
     Application:
       <<: *ApplicationDefaults
